@@ -1,0 +1,7 @@
+{
+  "watch": ["src", ".env"],
+  "ext": "ts,js,json",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "node --trace-warnings --import tsx --env-file=.env ./src/server.ts",
+  "legacyWatch": true
+}
