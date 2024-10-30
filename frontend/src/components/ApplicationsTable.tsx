@@ -218,7 +218,7 @@ export default function ApplicationsTable() {
                 </FormControl>
               </TableCell>
               <TableCell colSpan={2}>
-                <Typography variant="body1">Available Slots</Typography>
+                <Typography variant="body1">Slots</Typography>
                 <Typography variant="h6" color="primary">
                   {selectedCourseSlots}
                 </Typography>

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
-import apiClient, { refreshTokenAdmin } from '../../utils/auth';
+import { apiClientAdmin, refreshTokenAdmin } from '../../utils/auth';
 import AdminLoginPage from './LoginPage';
 import { Loading } from '../../components/Loading';
 
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const checkAuthentication = async () => {
       setIsLoading(true);
       try {
-        const response = await apiClient.get('/staffs/auth-status');
+        const response = await apiClientAdmin.get('/staffs/auth-status');
         const user = response.data.user;
 
         if (user) {
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const refreshed = await refreshTokenAdmin();
         if (refreshed) {
           try {
-            const response = await apiClient.get('/staffs/auth-status');
+            const response = await apiClientAdmin.get('/staffs/auth-status');
             const user = response.data.user;
 
             if (user) {

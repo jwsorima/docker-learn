@@ -147,7 +147,7 @@ staffs.post('/login', async (req: Request, res: Response) => {
     const accessToken = generateAccessToken(staffPayload);
     const refreshToken = generateRefreshToken(staffPayload);
 
-    res.cookie('refreshToken', refreshToken, {
+    res.cookie('refreshTokenA', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Use true in production
       sameSite: 'strict', // Adjust based on CSRF protection strategy
@@ -209,7 +209,7 @@ staffs.get('/auth-status', verifyStaffJwt, (req: Request, res: Response) => {
 });
 
 staffs.post('/logout', (_req: Request, res: Response) => {
-  res.cookie('refreshToken', '', {
+  res.cookie('refreshTokenA', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',

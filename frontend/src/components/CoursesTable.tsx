@@ -76,6 +76,7 @@ export default function CoursesTable() {
     try {
       await axios.post('http://localhost:3000/courses/status', {
         course_id: course_id,
+        slots: slots
       });
     } catch (error) {
       console.error(`Error inserting course_status for course ID ${course_id}:`, error);

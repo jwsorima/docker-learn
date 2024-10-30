@@ -112,8 +112,7 @@ applications.post('/',
 
       const applicationExists = await checkApplicationExist(applicant_id!);
 
-      if (applicationExists) {
-
+      if (applicationExists.exists) {
         res.status(400).json({ message: 'You have already submitted an application.' }); return;
       }
 

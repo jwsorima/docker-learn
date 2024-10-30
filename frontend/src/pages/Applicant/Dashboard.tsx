@@ -11,7 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import apiClient, { refreshToken } from '../../utils/auth';
 import { ApplicationStatus } from './ApplicationStatus';
-import { getStatusColor } from '../../utils/stringUtils';
+import { formatStatus, getStatusColor } from '../../utils/stringUtils';
 
 type ApplicantDetails = {
   full_name: string;
@@ -61,6 +61,8 @@ export default function Dashboard() {
             setError('Session expired. Please log in again.');
             navigate('/login');
           }
+        } else if(error.response?.status === 404) {
+          setLoading(false);
         } else {
           setError('Failed to load applicant details. Please try again later.');
           setLoading(false);
@@ -139,7 +141,7 @@ export default function Dashboard() {
                 component="span"
                 sx={{ color: getStatusColor(status.application_status), fontWeight: 'bold' }}
               >
-                {status.application_status}
+                {formatStatus(status.application_status as '' | 'Passed' | 'NotPassed' | 'NoShow')}
               </Typography>
             </>
           ) : (

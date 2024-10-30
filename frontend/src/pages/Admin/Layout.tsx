@@ -23,7 +23,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
-import { logout } from '../../utils/auth';
+import { logoutAdmin } from '../../utils/auth';
 import { useAuth } from './ProtectedRouteAdmin';
 import Grid from '@mui/material/Grid2';
 
@@ -50,7 +50,7 @@ export default function AdminLayout() {
   };
 
   const handleLogout = async () => {
-    await logout('/staffs');
+    await logoutAdmin('/staffs');
     navigate('/admin');
     window.location.reload();
   };

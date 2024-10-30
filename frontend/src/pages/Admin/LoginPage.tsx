@@ -75,7 +75,7 @@ export default function AdminLoginPage() {
       const result = await login(email, password, 'staffs/login');
 
       if (result.success) {
-        localStorage.setItem('accessToken', result.accessToken!);
+        localStorage.setItem('accessTokenA', result.accessToken!);
         setEmail('');
         setPassword('');
         setErrors({});

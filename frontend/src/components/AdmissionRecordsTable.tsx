@@ -24,7 +24,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { AddressTooltip } from './StyledComponents';
-import { getListStatusColor } from '../utils/stringUtils';
+import { formatStatus, getListStatusColor } from '../utils/stringUtils';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -196,7 +196,7 @@ export default function AdmissionRecordsTable() {
                   <TableCell>{admission.academic_year}</TableCell>
                   <TableCell>{admission.course_name}</TableCell>
                   <TableCell sx={{ color: getListStatusColor(theme, admission.type), fontWeight: 500 }}>
-                    {admission.type}
+                    {formatStatus(admission.type as "" | "Passed" | "NotPassed" | "NoShow")}
                   </TableCell>
                   <TableCell>
                     {dayjs(admission.created_at)

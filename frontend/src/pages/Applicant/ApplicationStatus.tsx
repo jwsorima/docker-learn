@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import apiClient, { refreshToken } from '../../utils/auth';
-import { getStatusColor } from '../../utils/stringUtils';
+import { formatStatus, getStatusColor } from '../../utils/stringUtils';
 
 export type ApplicationStatus = {
   application_status: string;
@@ -82,7 +82,7 @@ export default function ApplicationStatus() {
               component="span"
               sx={{ color: getStatusColor(status.application_status), fontWeight: 'bold' }}
             >
-              {status.application_status}
+              {formatStatus(status.application_status as '' | 'Passed' | 'NotPassed' | 'NoShow')}
             </Typography>
           </Typography>
           <Typography variant="body1">

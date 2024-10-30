@@ -15,6 +15,31 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+export const apiClientAdmin = axios.create({
+  baseURL: `${import.meta.env.VITE_BE_DOMAIN_NAME}`,
+});
+
+apiClientAdmin.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('accessTokenA');
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+export const logoutAdmin = async (path: string) => {
+  try {
+    await apiClient.post(`${path}/logout`, {}, { withCredentials: true });
+  } catch (error) {
+    console.error('Error logging out:', error);
+  } finally {
+    localStorage.removeItem('accessTokenA');
+  }
+};
+
 export const logout = async (path: string) => {
   try {
     await apiClient.post(`${path}/logout`, {}, { withCredentials: true });
@@ -80,9 +105,9 @@ export const refreshToken = async () => {
 
 export const refreshTokenAdmin = async () => {
   try {
-    const response = await apiClient.post('/staffs/refresh-token', {}, { withCredentials: true });
+    const response = await apiClientAdmin.post('/staffs/refresh-token', {}, { withCredentials: true });
     if (response.data.accessToken) {
-      localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('accessTokenA', response.data.accessToken);
       return true; // Successfully refreshed
     }
     return false; // Failed to refresh

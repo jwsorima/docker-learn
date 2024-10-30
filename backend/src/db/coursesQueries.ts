@@ -12,8 +12,7 @@ export async function createCourse(courseName: string) {
   `, [courseName])
 }
 
-export async function createCourseStatus(courseID: number) {
-  const defaultSlots = 100;
+export async function createCourseStatus(courseID: number, slots: number) {
   const defaultStatus = 'Active';
 
   try {
@@ -44,7 +43,7 @@ export async function createCourseStatus(courseID: number) {
     await dbQuery(`
       INSERT INTO course_status (course_id, academic_year_id, slots, status)
       VALUES ($1, $2, $3, $4);
-    `, [courseID, activeAcademicYearID, defaultSlots, defaultStatus]);
+    `, [courseID, activeAcademicYearID, slots, defaultStatus]);
 
     await dbQuery(`
       UPDATE course_status
@@ -65,6 +64,7 @@ export async function createCourseStatus(courseID: number) {
     throw error;
   }
 }
+
 
 
 

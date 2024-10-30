@@ -27,3 +27,16 @@ export const getListStatusColor = (theme: any, status: string) => {
       return theme.palette.text.primary;
   }
 };
+
+export const formatStatus = (status: '' | 'Passed' | 'NotPassed' | 'NoShow'): string => {
+  switch (status) {
+    case 'Passed':
+      return 'Passed';
+    case 'NotPassed':
+      return 'Not Passed';
+    case 'NoShow':
+      return 'No Show';
+    default:
+      return status;
+  }
+};

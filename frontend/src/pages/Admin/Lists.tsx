@@ -216,13 +216,13 @@ export function ApplicationStatusTable() {
                     width: '100%',
                   }}
                 >
-                  <Box sx={{ width: '10%', textAlign: 'center' }}>
+                  <Box sx={{ width: '10%', textAlign: 'center', fontWeight: 'bold' }}>
                     Select
                   </Box>
-                  <Box sx={{ width: '15%', minWidth: '40px', textAlign: 'center' }}>
+                  <Box sx={{ width: '15%', minWidth: '40px', textAlign: 'center', fontWeight: 'bold' }}>
                     Application ID
                   </Box>
-                  <Box sx={{ flexGrow: 1, textAlign: 'left', ml: 1 }}>
+                  <Box sx={{ flexGrow: 1, textAlign: 'left', ml: 1, fontWeight: 'bold' }}>
                     Applicant Name
                   </Box>
                 </Box>

@@ -6,7 +6,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { getStatusColor } from '../../utils/stringUtils';
+import { formatStatus, getStatusColor } from '../../utils/stringUtils';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -151,7 +151,7 @@ export default function AdminDashboard() {
                             component="span"
                             sx={{ color: getStatusColor(app.application_status), fontWeight: 'bold', ml: 0.5 }}
                           >
-                            {app.application_status}
+                            {formatStatus(app.application_status as "" | "Passed" | "NotPassed" | "NoShow")}
                           </Typography>
                         </>
                       }
@@ -208,7 +208,7 @@ export default function AdminDashboard() {
                             component="span"
                             sx={{ color: getStatusColor(admission.type), fontWeight: 'bold', ml: 0.5 }}
                           >
-                            {admission.type}
+                            {formatStatus(admission.type as "" | "Passed" | "NotPassed" | "NoShow")}
                           </Typography>
                           <Typography variant="body2" component="span" sx={{ ml: 1 }}>
                             | Date: {dayjs(admission.created_at).tz("Asia/Manila").format("YYYY-MM-DD HH:mm:ss")}

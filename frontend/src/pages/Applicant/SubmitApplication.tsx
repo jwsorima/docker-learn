@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { UploadFile as UploadFileIcon } from '@mui/icons-material';
 import apiClient, { refreshToken } from '../../utils/auth';
-import { getStatusColor } from '../../utils/stringUtils';
+import { formatStatus, getStatusColor } from '../../utils/stringUtils';
 
 type Course = {
   course_id: number;
@@ -162,7 +162,7 @@ export default function SubmitApplication() {
                 fontWeight: 'bold',
               }}
             >
-              {existingApplication.application_status}
+              {formatStatus(existingApplication.application_status as '' | 'Passed' | 'NotPassed' | 'NoShow')}
             </Typography>
             .
           </Typography>

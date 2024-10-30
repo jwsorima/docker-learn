@@ -5,12 +5,23 @@ const courses = Router();
 export type Course = {
   course_id?: number;
   course_name: string;
+  slots?: number;
 };
 
 courses.post('/', async (req: Request, res: Response) => {
   const course: Course = req.body;
+
+  if (
+    course.slots === undefined || 
+    isNaN(course.slots)
+  ) {
+    res.status(400).json({ message: 'Invalid course_id or slots' }); return;
+  }
+
   try {
-    await createCourse(course.course_name)
+    const createCourseOutput = await createCourse(course.course_name)
+
+    await createCourseStatus(createCourseOutput.rows[0].course_id, course.slots)
 
     res.status(201).json({ message: 'Course created successfully' });
   } catch (error) {
@@ -134,10 +145,10 @@ courses.delete('/:id', async (req: Request, res: Response) => {
 
 
 courses.post('/status', async (req: Request, res: Response) => {
-  const { course_id } = req.body;
+  const { course_id, slots } = req.body;
 
   try {
-    await createCourseStatus(parseInt(course_id, 10))
+    await createCourseStatus(parseInt(course_id, 10), parseInt(slots, 10))
 
     res.status(201).json({ message: 'Course status created successfully' });
   } catch (error) {
