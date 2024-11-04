@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig, loadEnv, UserConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
@@ -60,6 +61,10 @@ export default (async ({ mode }: { mode: string }): Promise<UserConfig> => {
         host: 'localhost', // Set HMR host to localhost for Docker compatibility
         port: 5173         // Set the HMR port to match the dev server
       }
+    },
+    test: {
+      globals: true,
+      environment: "jsdom",
     },
   })
 })
