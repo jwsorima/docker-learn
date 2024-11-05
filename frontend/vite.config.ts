@@ -65,6 +65,7 @@ export default (async ({ mode }: { mode: string }): Promise<UserConfig> => {
     test: {
       globals: true,
       environment: "jsdom",
+      setupFiles: "./src/setupTests.ts"
     },
   })
 })

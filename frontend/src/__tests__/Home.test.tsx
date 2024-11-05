@@ -15,5 +15,6 @@ describe("HomePage", () => {
   test("renders", () => {
     render(<TestHome />)
     expect(screen.getByText("Login")).toBeDefined();
+    expect(screen.getByText("Register")).toBeDefined();
   })
 })
