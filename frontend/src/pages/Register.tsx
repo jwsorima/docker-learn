@@ -315,6 +315,7 @@ export default function Register() {
                     id="sex"
                     label="Sex"
                     name="sex"
+                    inputProps={{ "data-testid": "select-sex-input" }}
                     value={applicant.sex}
                     onChange={handleSelectChange}
                   >

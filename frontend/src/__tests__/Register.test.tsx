@@ -1,10 +1,11 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act, within } from "@testing-library/react";
+import userEvent from '@testing-library/user-event'
 import Register from "../pages/Register";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
 import { describe, test, vi, expect, beforeEach, MockedFunction } from "vitest";
 
-vi.mock('axios', () => {
+vi.mock('axios', () => {//do I need to put this return?
   return {
     default: {
       post: vi.fn(),
@@ -75,27 +76,96 @@ describe("Register Page", () => {
   });
   
 
-  // test("shows loading indicator when submitting the form", async () => {
-  //   (axios.post as MockedFunction<typeof axios.post>).mockImplementation(
-  //     () => new Promise((resolve) => setTimeout(() => resolve({ data: { success: true } }), 500))
-  //   );
+  //Has act() warning
 
+
+  // test("shows loading indicator when submitting the form", async () => {
+  //   const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime.bind(vi) });
+  //   vi.useFakeTimers({ shouldAdvanceTime: true });
+  
+  //   (axios.post as MockedFunction<typeof axios.post>).mockResolvedValue(
+  //     new Promise((resolve) => setTimeout(() => resolve({ data: { success: true } }), 4000))
+  //   );
+  
+  //   renderWithRouter(<Register />);
+  
+  //   await user.type(screen.getByLabelText(/^Full Name$/i), "John Doe");
+  //   await user.type(screen.getByLabelText(/^Contact Number$/i), "912 345 6789");
+  //   await user.type(screen.getByLabelText(/^Address$/i), "123 Main St");
+
+  //   await act(async () => {
+  //     fireEvent.mouseDown(screen.getByRole("combobox", { name: "Sex" }));
+  //   });
+
+  //   const dropdownMenu = screen.getByTestId('select-sex-input');
+  //   expect(dropdownMenu).toBeInTheDocument();
+
+  //   await waitFor(() => expect(screen.getByRole("option", { name: "Male" })).toBeInTheDocument());
+    
+  //   await act(async() => {
+  //     await user.click(screen.getByRole("option", { name: "Male" }));
+  //   })
+    
+  //   await waitFor(() => expect(screen.getByRole("combobox", { name: "Sex" })).toHaveTextContent("Male"));
+        
+
+  //   await user.type(screen.getByLabelText(/^Birthdate$/i), "01/01/2000");
+  //   await user.type(screen.getByLabelText(/^Email Address$/i), "john@example.com");
+  //   await user.type(screen.getByLabelText(/^Password$/i), "password123");
+  //   await user.type(screen.getByLabelText(/^Confirm Password$/i), "password123");
+  
+  //   await user.click(screen.getByRole("button", { name: 'Register' }));
+  
+  //   // Check loading indicator
+  //   expect(axios.post).toHaveBeenCalledTimes(1);
+  //   act(() => vi.advanceTimersByTime(2000));
+  //   expect(screen.getByText("Registering...")).toBeInTheDocument();
+  
+  //   act(() => vi.advanceTimersByTime(2000));
+  //   vi.useRealTimers();
+  // });
+  
+
+  test("selects 'Male' option from the Sex dropdown", async () => {
+    render(<Register />, { wrapper: MemoryRouter });
+  
+    await act(async () => {
+      fireEvent.mouseDown(screen.getByRole("combobox", { name: "Sex" }));
+    });
+
+    //inputProps={{ "data-testid": "select-sex-input" }}
+  
+    await waitFor(() => {
+      expect(screen.getByRole("option", { name: "Male" })).toBeInTheDocument();
+    });
+  
+    await act(async () => {
+      await userEvent.click(screen.getByText("Male"));
+    });
+  
+    expect(screen.getByRole("combobox", { name: "Sex" })).toHaveTextContent("Male");
+  });
+
+
+  // test("displays validation error when birthdate is missing", async () => {
   //   renderWithRouter(<Register />);
 
-  //   fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: "John Doe" } });
-  //   fireEvent.change(screen.getByLabelText(/contact number/i), { target: { value: "912 345 6789" } });
-  //   fireEvent.change(screen.getByLabelText(/address/i), { target: { value: "123 Main St" } });
-  //   fireEvent.change(screen.getByLabelText(/sex/i), { target: { value: "Male" } });
-  //   fireEvent.change(screen.getByLabelText(/email address/i), { target: { value: "john@example.com" } });
-  //   fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-  //   fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "password123" } });
-  //   fireEvent.click(screen.getByRole("button", { name: /register/i }));
+  //   // Fill out other form fields but skip birthdate
+  //   fireEvent.change(screen.getByLabelText(/^Full Name$/i), { target: { value: "John Doe" } });
+  //   fireEvent.change(screen.getByLabelText(/^Contact Number$/i), { target: { value: "912 345 6789" } });
+  //   fireEvent.change(screen.getByLabelText(/^Address$/i), { target: { value: "123 Main St" } });
+  //   fireEvent.change(screen.getByTestId("select-sex-input"), { target: { value: "Male" } });
+  //   fireEvent.change(screen.getByLabelText(/^Email Address$/i), { target: { value: "john@example.com" } });
+  //   fireEvent.change(screen.getByLabelText(/^Password$/i), { target: { value: "password123" } });
+  //   fireEvent.change(screen.getByLabelText(/^Confirm Password$/i), { target: { value: "password123" } });
 
-  //   expect(screen.getByText(/registering\.\.\./i)).toBeInTheDocument();
-  //   expect(screen.getByRole("progressbar")).toBeInTheDocument();
+  //   // Submit the form without selecting a birthdate
+  //   fireEvent.click(screen.getByRole("button", { name: 'Register' }));
 
-  //   await waitFor(() => expect(screen.queryByRole("progressbar")).not.toBeInTheDocument());
+  //   // Check that the birthdate validation error appears
+  //   expect(await screen.findByText(/birthdate is required/i)).toBeInTheDocument();
   // });
+
 
   // test("displays success message on successful registration", async () => {
   //   (axios.post as MockedFunction<typeof axios.post>).mockResolvedValue({ data: { message: "Registration successful!", success: true } });
