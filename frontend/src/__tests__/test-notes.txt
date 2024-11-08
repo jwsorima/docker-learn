@@ -1,0 +1,23 @@
+always put assertion after act()
+
+
+https://stackoverflow.com/questions/76045362/testing-library-user-event-how-to-handle-act-warnings-related-to-materi
+???
+
+https://github.com/orgs/react-hook-form/discussions/4232
+
+https://github.com/react-hook-form/react-hook-form/blob/master/src/__tests__/useForm.test.tsx
+
+screen.debug(undefined, 300000)
+
+beforeAll(() => {
+  jest.useFakeTimers();
+  wrapper = mount(<SomeComponent />);
+});
+
+pull request this
+to reduce code
+
+
+https://kentcdodds.com/blog/introducing-the-react-testing-library
+
