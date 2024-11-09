@@ -34,10 +34,10 @@ function renderWithRouter(component: React.ReactNode) {
 describe("Register Page", () => {
   beforeEach(() => {
     vi.clearAllMocks(); // Clear mock history before each test
+    renderWithRouter(<Register />);
   });
 
   test("renders registration form elements", () => {
-    renderWithRouter(<Register />);
 
     expect(screen.getByLabelText(/^Full Name$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/^Contact Number$/i)).toBeInTheDocument();
@@ -51,7 +51,6 @@ describe("Register Page", () => {
   });
 
   test("displays validation errors on empty fields", async () => {
-    renderWithRouter(<Register />);
 
     fireEvent.click(screen.getByRole("button", { name: /register/i }));
 
@@ -65,7 +64,6 @@ describe("Register Page", () => {
   });
 
   test("displays error when passwords do not match", async () => {
-    renderWithRouter(<Register />);
   
     fireEvent.change(screen.getByLabelText(/^Password$/i), { target: { value: "password123" } });
     fireEvent.change(screen.getByLabelText(/^Confirm Password$/i), { target: { value: "password456" } });
@@ -83,8 +81,6 @@ describe("Register Page", () => {
     (axios.post as MockedFunction<typeof axios.post>).mockResolvedValue(
       new Promise((resolve) => setTimeout(() => resolve({ data: { success: true } }), 4000))
     );
-  
-    renderWithRouter(<Register />);
   
     await user.type(screen.getByLabelText(/^Full Name$/i), "John Doe");
     await user.type(screen.getByLabelText(/^Contact Number$/i), "912 345 6789");
@@ -135,7 +131,7 @@ describe("Register Page", () => {
 
 
   // test("displays validation error when birthdate is missing", async () => {
-  //   renderWithRouter(<Register />);
+  //   
 
   //   // Fill out other form fields but skip birthdate
   //   fireEvent.change(screen.getByLabelText(/^Full Name$/i), { target: { value: "John Doe" } });
@@ -157,7 +153,7 @@ describe("Register Page", () => {
   // test("displays success message on successful registration", async () => {
   //   (axios.post as MockedFunction<typeof axios.post>).mockResolvedValue({ data: { message: "Registration successful!", success: true } });
 
-  //   renderWithRouter(<Register />);
+  //   
 
   //   fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: "John Doe" } });
   //   fireEvent.change(screen.getByLabelText(/contact number/i), { target: { value: "912 345 6789" } });
@@ -176,7 +172,7 @@ describe("Register Page", () => {
   // test("displays error message when registration fails", async () => {
   //   (axios.post as MockedFunction<typeof axios.post>).mockRejectedValue({ response: { data: { message: "An account with this email already exists." } } });
 
-  //   renderWithRouter(<Register />);
+  //   
 
   //   fireEvent.change(screen.getByLabelText(/email address/i), { target: { value: "existing@example.com" } });
   //   fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });

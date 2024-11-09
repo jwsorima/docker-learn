@@ -10,14 +10,6 @@ https://github.com/react-hook-form/react-hook-form/blob/master/src/__tests__/use
 
 screen.debug(undefined, 300000)
 
-beforeAll(() => {
-  jest.useFakeTimers();
-  wrapper = mount(<SomeComponent />);
-});
-
-pull request this
-to reduce code
-
 
 https://kentcdodds.com/blog/introducing-the-react-testing-library
 
