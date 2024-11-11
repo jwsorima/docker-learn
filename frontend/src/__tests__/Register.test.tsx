@@ -130,24 +130,32 @@ describe("Register Page", () => {
   });
 
 
-  // test("displays validation error when birthdate is missing", async () => {
-  //   
+  test("displays validation error when birthdate is missing", async () => {
+    const user = userEvent.setup();
 
-  //   // Fill out other form fields but skip birthdate
-  //   fireEvent.change(screen.getByLabelText(/^Full Name$/i), { target: { value: "John Doe" } });
-  //   fireEvent.change(screen.getByLabelText(/^Contact Number$/i), { target: { value: "912 345 6789" } });
-  //   fireEvent.change(screen.getByLabelText(/^Address$/i), { target: { value: "123 Main St" } });
-  //   fireEvent.change(screen.getByTestId("select-sex-input"), { target: { value: "Male" } });
-  //   fireEvent.change(screen.getByLabelText(/^Email Address$/i), { target: { value: "john@example.com" } });
-  //   fireEvent.change(screen.getByLabelText(/^Password$/i), { target: { value: "password123" } });
-  //   fireEvent.change(screen.getByLabelText(/^Confirm Password$/i), { target: { value: "password123" } });
+    await userEvent.type(screen.getByLabelText(/^Full Name$/i), "John Doe" );
+    await userEvent.type(screen.getByLabelText(/^Contact Number$/i), "912 345 6789"  );
+    await userEvent.type(screen.getByLabelText(/^Address$/i), "123 Main St" );
 
-  //   // Submit the form without selecting a birthdate
-  //   fireEvent.click(screen.getByRole("button", { name: 'Register' }));
 
-  //   // Check that the birthdate validation error appears
-  //   expect(await screen.findByText(/birthdate is required/i)).toBeInTheDocument();
-  // });
+    await act(async () => {
+      fireEvent.mouseDown(screen.getByRole("combobox", { name: "Sex" }));
+    });
+    await waitFor(() => expect(screen.getByRole("option", { name: "Male" })).toBeInTheDocument());
+    await act(async() => {
+      await user.click(screen.getByRole("option", { name: "Male" }));
+    })
+    await waitFor(() => expect(screen.getByRole("combobox", { name: "Sex" })).toHaveTextContent("Male"));
+
+    
+    await userEvent.type(screen.getByLabelText(/^Email Address$/i), "john@example.com" );
+    await userEvent.type(screen.getByLabelText(/^Password$/i), "password123" );
+    await userEvent.type(screen.getByLabelText(/^Confirm Password$/i), "password123" );
+
+    await userEvent.click(screen.getByRole("button", { name: 'Register' }));
+
+    expect(await screen.findByText(/birthdate is required/i)).toBeInTheDocument();
+  });
 
 
   // test("displays success message on successful registration", async () => {
