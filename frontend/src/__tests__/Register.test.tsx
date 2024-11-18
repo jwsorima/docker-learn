@@ -23,6 +23,9 @@ vi.mock('axios', () => {//remove callback?
           eject: vi.fn(),
         },
       },
+      isAxiosError: (error: any): error is import('axios').AxiosError => {
+        return error?.isAxiosError === true;
+      },
     },
   };
 });
@@ -161,8 +164,6 @@ describe("Register Page", () => {
   // test("displays success message on successful registration", async () => {
   //   (axios.post as MockedFunction<typeof axios.post>).mockResolvedValue({ data: { message: "Registration successful!", success: true } });
 
-  //   
-
   //   fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: "John Doe" } });
   //   fireEvent.change(screen.getByLabelText(/contact number/i), { target: { value: "912 345 6789" } });
   //   fireEvent.change(screen.getByLabelText(/address/i), { target: { value: "123 Main St" } });
@@ -177,18 +178,41 @@ describe("Register Page", () => {
   //   });
   // });
 
-  // test("displays error message when registration fails", async () => {
-  //   (axios.post as MockedFunction<typeof axios.post>).mockRejectedValue({ response: { data: { message: "An account with this email already exists." } } });
+  test("displays error message when registration fails", async () => {
+    (axios.post as MockedFunction<typeof axios.post>).mockRejectedValue({
+      isAxiosError: true,
+      response: {
+        data: { message: "An account with this email already exists." },
+      },
+    });
 
-  //   
 
-  //   fireEvent.change(screen.getByLabelText(/email address/i), { target: { value: "existing@example.com" } });
-  //   fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-  //   fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "password123" } });
-  //   fireEvent.click(screen.getByRole("button", { name: /register/i }));
+    await userEvent.type(screen.getByLabelText(/^Full Name$/i), "John Doe");
+    await userEvent.type(screen.getByLabelText(/^Contact Number$/i), "912 345 6789");
+    await userEvent.type(screen.getByLabelText(/^Address$/i), "123 Main St");
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText(/an account with this email already exists/i)).toBeInTheDocument();
-  //   });
-  // });
+    await act(async () => {
+      fireEvent.mouseDown(screen.getByRole("combobox", { name: "Sex" }));
+    });
+    const dropdownMenu = screen.getByTestId('select-sex-input');
+    expect(dropdownMenu).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole("option", { name: "Male" })).toBeInTheDocument());
+    await act(async() => {
+      await userEvent.click(screen.getByRole("option", { name: "Male" }));
+    })
+    await waitFor(() => expect(screen.getByRole("combobox", { name: "Sex" })).toHaveTextContent("Male"));
+        
+
+    await userEvent.type(screen.getByLabelText(/^Birthdate$/i), "01/01/2000");
+    await userEvent.type(screen.getByLabelText(/^Email Address$/i), "john@example.com");
+    await userEvent.type(screen.getByLabelText(/^Password$/i), "password123");
+    await userEvent.type(screen.getByLabelText(/^Confirm Password$/i), "password123");
+  
+    await userEvent.click(screen.getByRole("button", { name: 'Register' }));
+
+
+    const errorMessages = await screen.findAllByText(/^An account with this email already exists.$/i);
+
+    expect(errorMessages.length).toBeGreaterThan(0);
+  });
 });
