@@ -5,7 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
 import { describe, test, vi, expect, beforeEach, MockedFunction } from "vitest";
 
-vi.mock('axios', () => {//remove callback?
+vi.mock('axios', () => {
   return {
     default: {
       post: vi.fn(),
@@ -36,7 +36,7 @@ function renderWithRouter(component: React.ReactNode) {
 
 describe("Register Page", () => {
   beforeEach(() => {
-    vi.clearAllMocks(); // Clear mock history before each test
+    vi.clearAllMocks();
     renderWithRouter(<Register />);
   });
 
@@ -159,24 +159,6 @@ describe("Register Page", () => {
 
     expect(await screen.findByText(/birthdate is required/i)).toBeInTheDocument();
   });
-
-
-  // test("displays success message on successful registration", async () => {
-  //   (axios.post as MockedFunction<typeof axios.post>).mockResolvedValue({ data: { message: "Registration successful!", success: true } });
-
-  //   fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: "John Doe" } });
-  //   fireEvent.change(screen.getByLabelText(/contact number/i), { target: { value: "912 345 6789" } });
-  //   fireEvent.change(screen.getByLabelText(/address/i), { target: { value: "123 Main St" } });
-  //   fireEvent.change(screen.getByLabelText(/sex/i), { target: { value: "Male" } });
-  //   fireEvent.change(screen.getByLabelText(/email address/i), { target: { value: "john@example.com" } });
-  //   fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-  //   fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "password123" } });
-  //   fireEvent.click(screen.getByRole("button", { name: /register/i }));
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText(/registration successful!/i)).toBeInTheDocument();
-  //   });
-  // });
 
   test("displays error message when registration fails", async () => {
     (axios.post as MockedFunction<typeof axios.post>).mockRejectedValue({
