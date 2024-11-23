@@ -19,6 +19,7 @@
     "@mui/icons-material": "^6.1.2",
     "@mui/material": "^6.1.2",
     "@mui/x-date-pickers": "^7.19.0",
+    "@tanstack/react-query": "^5.61.0",
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "jwt-decode": "^4.0.0",
