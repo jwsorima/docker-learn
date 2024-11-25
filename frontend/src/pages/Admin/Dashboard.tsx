@@ -56,6 +56,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
+    //HERE
     fetchDashboardStats();
   }, []);
 

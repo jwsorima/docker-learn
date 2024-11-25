@@ -3,6 +3,7 @@ import { Loading } from './components/Loading';
 import Home from './pages/Home';
 import { createTheme, CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const Register = lazy(() => import('./pages/Register'));
@@ -23,6 +24,7 @@ const Staffs = lazy(() => import('./pages/Admin/Staffs'));
 
 import './assets/App.css';
 
+const queryClient = new QueryClient()
 
 function App() {
   const theme = createTheme({
@@ -60,6 +62,7 @@ function App() {
 
 
   return (
+    <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {globalStyles}
@@ -148,6 +151,7 @@ function App() {
       </Router>
       </Suspense>
     </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 
