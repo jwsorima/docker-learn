@@ -24,7 +24,7 @@ const Staffs = lazy(() => import('./pages/Admin/Staffs'));
 
 import './assets/App.css';
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 function App() {
   const theme = createTheme({
